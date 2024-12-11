@@ -9,14 +9,12 @@ public class DijkstraGraph {
     }
 
     public void addVertex(String label) {
-        // Check vertex doesn't already exist before adding it
         if (!vertices.containsKey(label)) {
             WeightedVertex v1 = new WeightedVertex(label);
             vertices.put(label, v1);
         }
     }
     public void addEdge(String label1, String label2, int weight) {
-        // Check vertices exist before adding an edge between them
         if (vertices.containsKey(label1) && vertices.containsKey(label2)) {
             WeightedVertex v1 = vertices.get(label1);
             WeightedVertex v2 = vertices.get(label2);
@@ -26,15 +24,12 @@ public class DijkstraGraph {
         }
     }
     public void removeVertex(String label) {
-        // Check vertex exists before removing it
         if (vertices.containsKey(label)) {
             WeightedVertex v1 = vertices.get(label);
 
-            // Remove all edges to this vertex
             for (DijkstraEdge edge1: v1.edges) {
                 WeightedVertex v2 = edge1.destination;
 
-                // Look through v2 edges for edge to this
                 for (DijkstraEdge edge2: v2.edges) {
                     if (edge2.destination.equals(v1)) {
                         v2.edges.remove(edge2);
@@ -47,7 +42,6 @@ public class DijkstraGraph {
         }
     }
     public void removeEdge(String label1, String label2) {
-        // Check vertices exist before removing an edge between them
         if (vertices.containsKey(label1) && vertices.containsKey(label2)) {
             WeightedVertex v1 = vertices.get(label1);
             WeightedVertex v2 = vertices.get(label2);

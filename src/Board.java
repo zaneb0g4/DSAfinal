@@ -9,7 +9,6 @@ public class Board {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Initialize the DijkstraGraph and add some vertices and edges
         DijkstraGraph graph = new DijkstraGraph();
         graph.addVertex("A");
         graph.addVertex("B");
@@ -23,7 +22,6 @@ public class Board {
         sidePanel.setBackground(Color.GRAY);
         frame.add(sidePanel, BorderLayout.EAST);
 
-        // Create the VisualizationPanel and add it to the board
         VisualizationPanel visualizationPanel = new VisualizationPanel(graph);
         frame.add(visualizationPanel, BorderLayout.CENTER);
 
