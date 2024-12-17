@@ -4,33 +4,48 @@ import java.util.HashMap;
 
 public class VisualizationPanel extends JPanel {
     DijkstraGraph graph;
+    HashMap<String, Point> vertexPositions;
 
     public VisualizationPanel(DijkstraGraph graph) {
         this.graph = graph;
+        this.vertexPositions = new HashMap<>();
+        generateVertexPositions();
+    }
+
+    private void generateVertexPositions() {
+        int panelWidth = 800;
+        int panelHeight = 800;
+        int margin = 50;
+        for (WeightedVertex vertex : graph.vertices.values()) {
+            int x, y;
+            boolean validPosition;
+            do {
+                x = margin + (int) (Math.random() * (panelWidth - 2 * margin));
+                y = margin + (int) (Math.random() * (panelHeight - 2 * margin));
+                validPosition = true;
+
+                for (Point existing : vertexPositions.values()) {
+                    if (existing.distance(x, y) < 50) {
+                        validPosition = false;
+                        break;
+                    }
+                }
+            } while (!validPosition);
+
+            vertexPositions.put(vertex.label, new Point(x, y));
+        }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int centerX = getWidth() / 2;
-        int centerY = getHeight() / 2;
-        int radius = 200;
-
-        double angleStep = 2 * Math.PI / graph.vertices.size();
-        int i = 0;
-
-        HashMap<String, Point> vertexPositions = new HashMap<>();
-
         for (WeightedVertex vertex : graph.vertices.values()) {
-            int x = (int) (centerX + radius * Math.cos(i * angleStep));
-            int y = (int) (centerY + radius * Math.sin(i * angleStep));
-            vertexPositions.put(vertex.label, new Point(x, y));
+            Point position = vertexPositions.get(vertex.label);
             g.setColor(Color.BLUE);
-            g.fillOval(x - 15, y - 15, 30, 30);
+            g.fillOval(position.x - 15, position.y - 15, 30, 30);
             g.setColor(Color.WHITE);
-            g.drawString(vertex.label, x - 10, y + 5);
-            i++;
+            g.drawString(vertex.label, position.x - 10, position.y + 5);
         }
 
         for (WeightedVertex vertex : graph.vertices.values()) {
