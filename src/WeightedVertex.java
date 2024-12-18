@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-import javax.swing.*;
 
 public class WeightedVertex {
     String label;
